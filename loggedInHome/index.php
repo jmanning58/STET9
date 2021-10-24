@@ -1,30 +1,31 @@
 <?php
+
 session_start();
-if(!isset($_SESSION["UID"])){
+if (!isset($_SESSION["UID"])) {
     header("Location: ../view/accesDenied.html");
-} 
+}
 require 'objectMakingFunctions.php';
 require('../model/database.php');
 $error_msg = filter_input(INPUT_GET, 'error_msg');
 
 $action = '';
 if (empty($action)) {
-   $action = filter_input(INPUT_POST, 'action');
+    $action = filter_input(INPUT_POST, 'action');
     if (empty($action)) {
         $action = filter_input(INPUT_GET, 'action');
         if (empty($action)) {
-            if($_SESSION["UTYPE"] == 0){
+            if ($_SESSION["UTYPE"] == 0) {
                 $action = 'viewTasks';
             } else {
-                $action = 'adminHome'; 
+                $action = 'adminHome';
             }
         }
-    } 
+    }
 }
 
 
 //echo $action;
-switch($action){
+switch ($action) {
     case 'adminHome':
         include 'view/adminHome_v.php';
         break;
@@ -47,6 +48,11 @@ switch($action){
     case 'completeTask_v':
         include 'incs/completeTask_v.inc.php';
         break;
-    
-
+    case 'createNest':
+        include'incs/createNest.php';
+        break;
+    case 'viewNests':
+        include'incs/viewNests.inc.php';
+        include 'view/viewObjects_v.php';
+        break;
 }
