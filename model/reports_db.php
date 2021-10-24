@@ -1,6 +1,6 @@
 <?php
 
-function add_report($cityName, $streetAddress, $accessNum, $description){
+function add_report($cityName, $streetAddress, $accessNum, $description) {
     global $db;
     $query = 'INSERT INTO reports (cityName, streetAddress, accessNum, description) VALUES (:cn, :sa, :an, :des)';
     $statement = $db->prepare($query);
@@ -8,27 +8,36 @@ function add_report($cityName, $streetAddress, $accessNum, $description){
     $statement->bindValue(':sa', $streetAddress);
     $statement->bindValue(':an', $accessNum);
     $statement->bindValue(':des', $description);
-    $statement->execute(); 
+    $statement->execute();
     $statement->closeCursor();
 }
-function get_reports(){
+
+function get_reports() {
     global $db;
-    $query = 'SELECT * FROM reports';
+    $query = 'SELECT * FROM reports AS r WHERE NOT EXISTS (SELECT * FROM nests AS n WHERE n.RID = r.RID)';
     $statement = $db->prepare($query);
     $statement->execute();
     $reports = $statement->fetchAll();
     $statement->closeCursor();
-    return $reports;         
+    return $reports;
 }
-function get_report_by_id($ID){
+
+function get_report_by_id($ID) {
     global $db;
-    $query = 'SELECT * FROM reports WHERE NID = :id';
+    $query = 'SELECT * FROM reports WHERE RID = :id';
     $statement = $db->prepare($query);
     $statement->bindValue(':id', $ID);
     $statement->execute();
     $report = $statement->fetch();
     $statement->closeCursor();
-    return $report; 
-    
-    
+    return $report;
+}
+
+function delete_report_by_id($ID) {
+    global $db;
+    $query = 'DELETE FROM reports WHERE RID = :id';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':id', $ID);
+    $statement->execute();
+    $statement->closeCursor();
 }
