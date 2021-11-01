@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src = "js/googlemaps.js"></script>
+        <script type = "text/javascript" src = "js/googlemaps.js"></script>
         <style type = "text/css">
             .container {
                 height: 450px;
