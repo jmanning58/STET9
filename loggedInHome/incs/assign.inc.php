@@ -10,3 +10,7 @@ if ($taskType == 'Report') {
     $type = 0;
 }
 add_task($ID, $WID, $type);
+$ReassignTaskTID = filter_input(INPUT_POST, 'ReassignTaskTID');
+if(!empty($ReassignTaskTID)){
+    delete_task_by_tid($ReassignTaskTID);
+}

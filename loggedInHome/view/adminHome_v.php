@@ -7,5 +7,6 @@
         <a href="index.php?action=viewReports">View Reports</a><br>
         <a href="index.php?action=viewNests">View Nests</a><br>
         <a href="index.php?action=viewTasks">View Tasks</a><br>
+        <a href="index.php?action=manageUsers">Manage Users</a><br>
     </body>
 </html>

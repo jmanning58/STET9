@@ -15,8 +15,27 @@ function makeNestObject($nest) {
 const WORKER_COLUMNS = array('UID', 'Username');
 
 function makeWorkerObject($worker) {
+
     return array($worker['UID'], $worker['username']);
 }
+
+const USER_COLUMNS = array('UID', 'Username', 'Type');
+function makeUserObject($user) {
+    if($user['userType'] == 0){
+        $type = 'Worker';
+    } else {
+        $type = 'Admin';
+    }
+    if($user['userName'] == NULL){
+        $name = explode('@', $user['email'])[0];
+    } else{
+        $name = $user['userName'];
+    }
+    return array($user['UID'],$name , $type);
+}
+
+
+
 
 const TASK_COLUMNS_FOR_WORKER = array('TaskID', 'Type', 'City', 'Street Addr.', 'Assigned on');
 
@@ -54,14 +73,11 @@ function makeObjects($objectType, $fromArray, $ID) {
     $objects = array();
     foreach ($fromArray as $entry) {
         switch ($objectType) {
-            case 'Worker':$object = makeWorkerObject($entry);
-                break;
-            case 'Report':$object = makeReportObject($entry);
-                break;
-            case 'Task': $object = taskHandler($entry);
-                break;
-            case 'Nest': $object = makeNestObject($entry);
-                break;
+            case 'User':$object = makeUserObject($entry);break;
+            case 'Worker':$object = makeWorkerObject($entry);break;
+            case 'Report':$object = makeReportObject($entry);break;
+            case 'Task': $object = taskHandler($entry);break;
+            case 'Nest': $object = makeNestObject($entry);break;
             default:break;
         }
         if (isset($ID) && $object[0] == $ID) {

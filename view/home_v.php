@@ -7,6 +7,6 @@
     <body>
         <h1>Welcome!</h1>
         <p>If you encounter a sea turtle nest, please report it by clicking the link below.</p>
-        <li><a href="index.php?action=reportNestView">Report Nest</a></li>
-    </body>
+    <li><a href="index.php?action=reportNestView">Report Nest</a></li>
+</body>
 </html>

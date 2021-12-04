@@ -1,5 +1,4 @@
 <?php
-
 function add_task($ID, $UID, $type) {
     global $db;
     $query = 'INSERT INTO tasks (RNID, UID, type) VALUES (:id, :uid, :t)';
@@ -10,7 +9,6 @@ function add_task($ID, $UID, $type) {
     $statement->execute();
     $statement->closeCursor();
 }
-
 function get_tasks() {
     global $db;
     $query = 'SELECT * FROM tasks';
@@ -20,7 +18,6 @@ function get_tasks() {
     $statement->closeCursor();
     return $tasks;
 }
-
 function get_tasks_for_worker($WID) {
     global $db;
     $query = 'SELECT * FROM tasks WHERE UID = :uid';
@@ -31,7 +28,26 @@ function get_tasks_for_worker($WID) {
     $statement->closeCursor();
     return $tasks;
 }
-
+function delete_tasks_for_worker($WID) {
+    global $db;
+    $query = 'DELETE FROM tasks WHERE UID = :uid';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':uid', $WID);
+    $statement->execute();
+    $tasks = $statement->fetchAll();
+    $statement->closeCursor();
+    return $tasks;
+}
+function get_tasks_by_id($TID) {
+    global $db;
+    $query = 'SELECT * FROM tasks WHERE TID = :tid';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tid', $TID);
+    $statement->execute();
+    $tasks = $statement->fetchAll();
+    $statement->closeCursor();
+    return $tasks;
+}
 function delete_task_by_tid($TID) {
     global $db;
     $query = 'DELETE FROM tasks WHERE TID = :tid';
@@ -39,10 +55,19 @@ function delete_task_by_tid($TID) {
     $statement->bindValue(':tid', $TID);
     $statement->execute();
 }
-
 function get_rnid_of_task($TID) {
     global $db;
     $query = 'SELECT RNID FROM tasks WHERE TID = :tid';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':tid', $TID);
+    $statement->execute();
+    $task = $statement->fetch();
+    $statement->closeCursor();
+    return $task[0];
+}
+function get_uid_of_task($TID) {
+    global $db;
+    $query = 'SELECT UID FROM tasks WHERE TID = :tid';
     $statement = $db->prepare($query);
     $statement->bindValue(':tid', $TID);
     $statement->execute();

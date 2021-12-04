@@ -12,6 +12,17 @@ function add_report($cityName, $streetAddress, $accessNum, $description) {
     $statement->closeCursor();
 }
 
+function get_reportst_sorted($sortBy) {
+    //echo'hhhh '; echo "SELECT * FROM reports AS r WHERE NOT EXISTS (SELECT * FROM nests AS n WHERE n.RID = r.RID) ORDER BY $sortBy"; exit();
+    global $db;
+    $query = 'SELECT * FROM reports AS r WHERE NOT EXISTS (SELECT * FROM nests AS n WHERE n.RID = r.RID) ORDER BY cityName';
+    $statement = $db->prepare($query);
+    $statement->bindValue(':sb', $sortBy);
+    $statement->execute();
+    $reports = $statement->fetchAll();
+    $statement->closeCursor();
+    return $reports;
+}
 function get_reports() {
     global $db;
     $query = 'SELECT * FROM reports AS r WHERE NOT EXISTS (SELECT * FROM nests AS n WHERE n.RID = r.RID)';

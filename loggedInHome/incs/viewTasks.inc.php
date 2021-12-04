@@ -19,4 +19,15 @@ if ($_SESSION["UTYPE"] == 0) {
 $objects = makeObjects($objectType, $tasks, $ID);
 if (isset($ID)) {
     $selectedObject = array_pop($objects);
+    $selectMessage = 'Selected task';
+}
+if (empty($objects)) {
+    if (isset($selectedObject)) {
+        $listMessage = 'No more tasks';
+    } else {
+        $listMessage = 'No tasks';
+    }
+    $emptyList = TRUE;
+} else {
+    $listMessage = 'Task list';
 }
